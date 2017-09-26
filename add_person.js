@@ -17,16 +17,25 @@ function connectDB(settings, cb) {
 
 }
 
+function insertPerson(client, fname, lname, dob, cb) {
+    client('famous_people').insert({
+        first_name: fname,
+        last_name: lname,
+        birthdate: dob
+       }).then(function (response) {
+        cb(response);
+       });
+}
+
 let first_name = process.argv[2];
 let last_name = process.argv[3];
 let birthdate = process.argv[4];
 
 connectDB(settings, (client) => {
     console.log('Adding user to database..');
-    console.log(`Input provided: ${first_name} :: ${last_name} :: ${birthdate}`);
-    // lookupName(client, name, (result) => {
-    //     console.log(`Found ${result.length} person(s) by the name of '${name}':`);
-    //     result.forEach(printResult);
-    // });
+    insertPerson(client, first_name, last_name, birthdate, (result) => {
+        console.log(` : User added successfully..`);
+    });
+    client.destroy();
 });
 
