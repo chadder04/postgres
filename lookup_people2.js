@@ -35,7 +35,9 @@ function lookupName(client, name, cb) {
 
 function printResult(item, index) {
     let currentRow = index + 1;
-    return console.log(` - ${currentRow}: ${item.first_name} ${item.last_name}, born '${item.birthdate}'`);
+    let birthdate = new Date(item.birthdate);
+    let birthdate_string = birthdate.getFullYear() + '-' + birthdate.getMonth() + '-' + birthdate.getDate();
+    return console.log(` - ${currentRow}: ${item.first_name} ${item.last_name}, born '${birthdate_string}'`);
 }
 
 let name = process.argv[2];
