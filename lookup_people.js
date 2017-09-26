@@ -16,14 +16,13 @@ function connectDB(settings, cb) {
         if (err) {
             return console.error("Connection Error", err);
         }
-        console.log('Connected..');
         cb(client, err);
     });
 
 }
 
 function lookupName(client, name, cb) {
-    client.query("SELECT first_name, last_name, birthdate FROM famous_people WHERE first_name LIKE $1::text OR last_name LIKE $1::text", [name], (err, result) => {
+    client.query("SELECT first_name, last_name, to_char(birthdate, 'YYYY-MM-DD') AS birthdate FROM famous_people WHERE first_name LIKE $1::text OR last_name LIKE $1::text", [name], (err, result) => {
         if (err) {
             return console.error("error running query", err);
         }
@@ -39,7 +38,7 @@ connectDB(settings, (client, err) => {
     lookupName(client, name, (result) => {
         console.log(`Found ${result.rowCount} person(s) by the name of '${name}':`);
         for (key in result.rows) {
-            console.log(`${result.rows[key].first_name}`);
+            console.log(` - ${key}: ${result.rows[key].first_name} ${result.rows[key].last_name}, born '${result.rows[key].birthdate}'`);
         }
     });
 });
