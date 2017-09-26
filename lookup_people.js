@@ -31,15 +31,17 @@ function lookupName(client, name, cb) {
     });
 }
 
+function printResult(item, index) {
+    return console.log(` - ${index}: ${item.first_name} ${item.last_name}, born '${item.birthdate}'`);
+}
+
 let name = process.argv[2];
 
 connectDB(settings, (client, err) => {
     console.log('Searching..');
     lookupName(client, name, (result) => {
         console.log(`Found ${result.rowCount} person(s) by the name of '${name}':`);
-        for (key in result.rows) {
-            console.log(` - ${key}: ${result.rows[key].first_name} ${result.rows[key].last_name}, born '${result.rows[key].birthdate}'`);
-        }
+        result.rows.forEach(printResult);
     });
 });
 
