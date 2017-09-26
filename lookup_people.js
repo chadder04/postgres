@@ -38,7 +38,9 @@ connectDB(settings, (client, err) => {
     console.log('Searching..');
     lookupName(client, name, (result) => {
         console.log(`Found ${result.rowCount} person(s) by the name of '${name}':`);
-        console.log(`${result.rows[0].first_name}`);
+        for (key in result.rows) {
+            console.log(`${result.rows[key].first_name}`);
+        }
     });
 });
 
