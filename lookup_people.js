@@ -32,7 +32,8 @@ function lookupName(client, name, cb) {
 }
 
 function printResult(item, index) {
-    return console.log(` - ${index}: ${item.first_name} ${item.last_name}, born '${item.birthdate}'`);
+    let currentRow = index + 1;
+    return console.log(` - ${currentRow}: ${item.first_name} ${item.last_name}, born '${item.birthdate}'`);
 }
 
 let name = process.argv[2];
